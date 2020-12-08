@@ -1,0 +1,15 @@
+.quiz{
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  flex-grow: 1;
+  width: 100%;
+
+  h1{
+    color: white;
+    margin-left: 10px;
+  }
+  .quizWrapper{
+    width: 600px;
+  }
+}
