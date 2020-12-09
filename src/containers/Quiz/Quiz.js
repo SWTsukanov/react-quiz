@@ -4,6 +4,7 @@ import classes from './quiz.module.scss'
 import ActiveQuiz from "../../components/ActiveQuize/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
 
+
 class Quiz extends Component {
     state = {
         results: {},
