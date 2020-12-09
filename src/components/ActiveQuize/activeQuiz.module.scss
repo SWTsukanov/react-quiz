@@ -9,4 +9,8 @@
 .question{
   display: flex;
   justify-content: space-between;
+
+  span{
+    width: 90%;
+  }
 }
