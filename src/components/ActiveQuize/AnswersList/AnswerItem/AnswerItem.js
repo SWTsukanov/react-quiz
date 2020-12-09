@@ -1,9 +1,14 @@
 import React from 'react'
 import classes from './AnswerItem.module.scss'
 const AnswerItem = (props) =>{
+    const cls = [classes.answerItem]
+
+    if (props.rightOrNot){
+        cls.push(classes[props.rightOrNot])
+    }
     return(
         <li
-            className={classes.answerItem}
+            className={cls.join(' ')}
             onClick={()=>{
                 props.onAnswerClick(props.answer.id)
             }}

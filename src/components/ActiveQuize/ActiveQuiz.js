@@ -16,6 +16,7 @@ const ActiveQuiz = (props) =>{
             <AnswersList
                 answers={props.answers}
                 onAnswerClick = {props.onAnswerClick}
+                rightOrNot = {props.rightOrNot}
             />
 
         </div>

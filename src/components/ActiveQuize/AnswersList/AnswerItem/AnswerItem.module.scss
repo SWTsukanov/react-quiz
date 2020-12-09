@@ -10,3 +10,10 @@
     transition: background .3s ease-in-out;
   }
 }
+
+.success{
+  background-color: rgba(161,240,69,.7);
+}
+.error{
+  background-color: rgba(240,87,108,.7);
+}

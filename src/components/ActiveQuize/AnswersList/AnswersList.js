@@ -12,6 +12,7 @@ const AnswersList = (props) =>{
                            answer={answer}
                            key={index}
                            onAnswerClick = {props.onAnswerClick}
+                           rightOrNot = {props.rightOrNot ? props.rightOrNot[answer.id] : null}
                        />
                    )
 
