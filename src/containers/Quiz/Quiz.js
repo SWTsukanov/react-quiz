@@ -48,6 +48,7 @@ class Quiz extends Component {
         ]
     }
 
+
     onAnswerClickHandler = (answerId) => {
         // console.log('Answer Id: ',answerId)
         if (this.state.answerState) {
@@ -64,6 +65,7 @@ class Quiz extends Component {
             if (!results[question.id]) {
                 results[question.id] = 'success'
             }
+
             this.setState({
                 answerState: {[answerId]: 'success'},
                 results
@@ -99,11 +101,15 @@ class Quiz extends Component {
 
     onButtonClickHandler = () => {
         this.setState({
-            isFinished : false,
-            activeQuestion : 0,
-            answerState : null,
-            results : {}
+            isFinished: false,
+            activeQuestion: 0,
+            answerState: null,
+            results: {}
         })
+    }
+
+    componentDidMount() {
+        console.log("Quiz id = ", this.props.match.params.id)
     }
 
     render() {
@@ -118,7 +124,7 @@ class Quiz extends Component {
                             <FinishedQuiz
                                 results={this.state.results}
                                 quiz={this.state.quiz}
-                                onClickHandler = {this.onButtonClickHandler}
+                                onClickHandler={this.onButtonClickHandler}
                             />
                             : <ActiveQuiz
                                 question={this.state.quiz[this.state.activeQuestion].question}
