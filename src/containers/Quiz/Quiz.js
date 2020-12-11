@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import classes from './quiz.module.scss'
+import axios from '../../axios/axiosAPI'
 
 import ActiveQuiz from "../../components/ActiveQuize/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import Loader from "../../components/UI/Loader/Loader";
 
 
 class Quiz extends Component {
@@ -11,40 +13,41 @@ class Quiz extends Component {
         isFinished: false,
         activeQuestion: 0,
         answerState: null,//{id: 'success' 'error'}
+        loading: true,
         quiz: [
-            {
-                id: 1,
-                question: 'Кто бросил молот и перо на Луну, чтобы продемонстрировать, что без воздуха они падают с одинаковой скоростью?',
-                answers: [
-                    {text: "Норм Ларсен", id: 1},
-                    {text: "Юрий Гагарин", id: 2},
-                    {text: "Дэвид Р. Скотт", id: 3},
-                    {text: "Альберт Энштейн", id: 4}
-                ],
-                rightAnswerId: 3
-            },
-            {
-                id: 2,
-                question: 'Сколько сердец у Осьминога?',
-                answers: [
-                    {text: "Одно", id: 1},
-                    {text: "Два", id: 2},
-                    {text: "Три", id: 3},
-                    {text: "Четыре", id: 4}
-                ],
-                rightAnswerId: 3
-            },
-            {
-                id: 3,
-                question: 'Какая самая большая молекула является частью человеческого тела?',
-                answers: [
-                    {text: "Хромосома 1", id: 1},
-                    {text: "РНК", id: 2},
-                    {text: "ДНК", id: 3},
-                    {text: "H2O", id: 4}
-                ],
-                rightAnswerId: 1
-            }
+            // {
+            //     id: 1,
+            //     question: 'Кто бросил молот и перо на Луну, чтобы продемонстрировать, что без воздуха они падают с одинаковой скоростью?',
+            //     answers: [
+            //         {text: "Норм Ларсен", id: 1},
+            //         {text: "Юрий Гагарин", id: 2},
+            //         {text: "Дэвид Р. Скотт", id: 3},
+            //         {text: "Альберт Энштейн", id: 4}
+            //     ],
+            //     rightAnswerId: 3
+            // },
+            // {
+            //     id: 2,
+            //     question: 'Сколько сердец у Осьминога?',
+            //     answers: [
+            //         {text: "Одно", id: 1},
+            //         {text: "Два", id: 2},
+            //         {text: "Три", id: 3},
+            //         {text: "Четыре", id: 4}
+            //     ],
+            //     rightAnswerId: 3
+            // },
+            // {
+            //     id: 3,
+            //     question: 'Какая самая большая молекула является частью человеческого тела?',
+            //     answers: [
+            //         {text: "Хромосома 1", id: 1},
+            //         {text: "РНК", id: 2},
+            //         {text: "ДНК", id: 3},
+            //         {text: "H2O", id: 4}
+            //     ],
+            //     rightAnswerId: 1
+            // }
         ]
     }
 
@@ -108,8 +111,19 @@ class Quiz extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log("Quiz id = ", this.props.match.params.id)
+    async componentDidMount() {
+        // console.log("Quiz id = ", this.props.match.params.id)
+        try {
+            const response = await axios.get(`quiz/quizes/${this.props.match.params.id}.json`)
+            console.log(response)
+            this.setState({
+                loading: false
+            })
+        } catch (e) {
+            console.error(e)
+        }
+
+
     }
 
     render() {
@@ -118,7 +132,9 @@ class Quiz extends Component {
 
                 <div className={classes.quizWrapper}>
                     <h1>Ответьте на вопросы</h1>
-                    {
+                    {this.state.loading
+                        ? <Loader/>
+                        :
                         this.state.isFinished
                             ?
                             <FinishedQuiz
@@ -135,6 +151,8 @@ class Quiz extends Component {
                                 rightOrNot={this.state.answerState}
                             />
                     }
+                    }
+
 
                 </div>
             </div>
