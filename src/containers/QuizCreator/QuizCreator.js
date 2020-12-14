@@ -55,7 +55,7 @@ const QuizCreator = (props) => {
         const {question, option1, option2, option3, option4} = state.formControls
         const questionItem = {
             id: index,
-            question: question,
+            question: question.value,
             rightAnswerId: state.rightAnswerId,
             answers: [
                 {text: option1.value, id: option1.id},
@@ -66,10 +66,10 @@ const QuizCreator = (props) => {
         }
         quiz.push(questionItem)
 
-        setState((prevState)=>{
-            return{
+        setState((prevState) => {
+            return {
                 quiz,
-                 formIsValid: false,
+                formIsValid: false,
                 rightAnswerId: 1,
                 formControls: createFormControls()
             }
@@ -77,24 +77,19 @@ const QuizCreator = (props) => {
     }
     const createQuizHandler = async (e) => {
         e.preventDefault()
-        try{
-            const response =  await axios.post('https://reactquiz-b6d47-default-rtdb.firebaseio.com/quiz/quizes.json',state.quiz)
-            console.log(response.data)
-            setState((prevState)=>{
-                return{
-                    quiz:[],
+        try {
+            await axios.post('https://reactquiz-b6d47-default-rtdb.firebaseio.com/quiz/quizes.json', state.quiz)
+            setState((prevState) => {
+                return {
+                    quiz: [],
                     formIsValid: false,
                     rightAnswerId: 1,
                     formControls: createFormControls()
                 }
             })
-        }
-        catch (err){
+        } catch (err) {
             console.error(err)
         }
-        // axios.post('https://reactquiz-b6d47-default-rtdb.firebaseio.com/quiz/quizes.json',state.quiz)
-        //     .then(response=>console.log(response))
-        //     .catch(err=>console.error(err))
     }
 
     const changeHandler = (value, controlName) => {
@@ -126,6 +121,7 @@ const QuizCreator = (props) => {
             const control = state.formControls[controlName]
             return (<>
                     <Input
+                        key={index}
                         label={control.label}
                         value={control.value}
                         valid={control.valid}
@@ -153,7 +149,7 @@ const QuizCreator = (props) => {
                 }
             )
         })
-        console.log(e.target.value)
+        // console.log(e.target.value)
     }
 
     const select = <Select
@@ -185,7 +181,7 @@ const QuizCreator = (props) => {
                     <Button
                         type='success'
                         onClick={createQuizHandler}
-                        disabled={state.quiz.length===0}
+                        disabled={state.quiz.length === 0}
                     >
                         Создать тест
                     </Button>

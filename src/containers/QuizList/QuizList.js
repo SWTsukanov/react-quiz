@@ -34,7 +34,7 @@ const QuizList = (props) => {
                 return (
                     <li key={index}>
                         <NavLink
-                            to={`quiz:${quiz.quiz}`}
+                            to={`quiz/${quiz.quiz}`}
                         >
                             Тест {quiz.quiz}
                         </NavLink>

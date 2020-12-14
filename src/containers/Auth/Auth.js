@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import classes from './auth.module.scss'
 import is from 'is_js'
+import axios from 'axios'
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
+
 
 const Auth = (props) => {
     const [state, setState] = useState(
@@ -37,31 +39,56 @@ const Auth = (props) => {
         }
     )
 
-    const loginHandler = () => {
+    const loginHandler = async () => {
+        const authData = {
+            email: state.formControls.email.value,
+            password: state.formControls.password.value,
+            returnSecureToken: true
+        }
 
+        try {
+            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDQdMm48ribjNWCkIyl3HgsJo7lxCdh3r4',authData)
+            console.log(response.data)
+        } catch (e) {
+            console.error(e)
+        }
     }
-    const registerHandler = () => {
 
+    const registerHandler = async () => {
+        const authData = {
+            email: state.formControls.email.value,
+            password: state.formControls.password.value,
+            returnSecureToken: true
+        }
+        console.log(state.formControls.email.value)
+        try {
+            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDQdMm48ribjNWCkIyl3HgsJo7lxCdh3r4',authData)
+            console.log(response.data)
+        } catch (e) {
+            console.error(e)
+        }
     }
+
+
     const submitHandler = (e) => {
         e.preventDefault()
     }
 
-    const validateControl = (value, validation)=>{
-        if(!validation){
+    const validateControl = (value, validation) => {
+        if (!validation) {
             return true;
         }
 
         let isValid = true;
 
-        if(validation.required){
+        if (validation.required) {
             isValid = value.trim() !== '' && isValid
         }
-        if(validation.email){
+        if (validation.email) {
             isValid = is.email(value) && isValid
         }
-        if(validation.minLength){
-            isValid = value.length>=6 && isValid
+        if (validation.minLength) {
+            isValid = value.length >= 6 && isValid
         }
 
         return isValid
@@ -77,7 +104,7 @@ const Auth = (props) => {
         formControls[controlName] = control;
 
         let isFormValid = true
-        Object.keys(formControls).forEach((name)=>{
+        Object.keys(formControls).forEach((name) => {
             isFormValid = formControls[name].valid && isFormValid
         })
 
@@ -115,7 +142,8 @@ const Auth = (props) => {
                 <form className={classes.authForm} onSubmit={submitHandler}>
                     {renderInputs()}
                     <Button type="success" disabled={!state.isFormValid} onClick={loginHandler}>Войти</Button>
-                    <Button type="primary" disabled={!state.isFormValid} onClick={registerHandler}>Зарегистрироваться</Button>
+                    <Button type="primary" disabled={!state.isFormValid}
+                            onClick={registerHandler}>Зарегистрироваться</Button>
                 </form>
             </div>
 
